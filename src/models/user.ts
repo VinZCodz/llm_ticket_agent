@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose, { type InferSchemaType } from "mongoose"
 
 const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
@@ -7,5 +7,6 @@ const userSchema = new mongoose.Schema({
     skills: [String],
     createdAt: { type: Date, default: Date.now }
 })
+export type UserDocument = InferSchemaType<typeof userSchema>;
 
-export default mongoose.model("User", userSchema)
+export default mongoose.model<UserDocument>("User", userSchema)

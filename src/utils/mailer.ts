@@ -1,16 +1,16 @@
-const nodemailer form "nodemailer";
+import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
     host: process.env.MAILTRAP_SMTP_HOST!,
-    port: process.env.MAILTRAP_SMTP_PORT!,
+    port: process.env.MAILTRAP_SMTP_PORT as any,
     secure: false, // true for 465, false for other ports
     auth: {
         user: process.env.MAILTRAP_SMTP_USER!,
-        pass: process.env.MAILTRAP_SMTP_PW!,
-    },
-});
+        pass: process.env.MAILTRAP_SMTP_PW!
+    }
+})
 
-export default const sendMail = async (to: string, from: string, subject: string, text: string) => {
+export const sendMail = async (to: string, subject: string, text: string) => {
     try {
         const info = await transporter.sendMail({
             from: "Inngest TMS",
@@ -21,7 +21,7 @@ export default const sendMail = async (to: string, from: string, subject: string
         console.log("Message sent:", info.messageId);
         return info;
     } catch (error) {
-        console.error("Mail Error:", error.message);
+        console.error("Mail Error:", error);
         throw error;
     }
 }
